@@ -18,7 +18,7 @@ class AuthController extends Controller
     {
         // If already authenticated, redirect to dashboard
         if (Auth::check()) {
-            return view('auth.dashboard');
+            redirect()->route('dashboard');
         }
 
         return view('auth.login');

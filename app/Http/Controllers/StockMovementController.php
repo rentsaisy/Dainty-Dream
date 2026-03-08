@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class StockMovementController extends Controller
 {
@@ -81,7 +82,7 @@ class StockMovementController extends Controller
         }
 
         // Create movement record
-        $validated['user_id'] = auth()->id();
+        $validated['user_id'] = Auth::id();
         StockMovement::create($validated);
 
         return redirect()->route('stock-movements.index')->with('success', 'Stock movement recorded successfully!');

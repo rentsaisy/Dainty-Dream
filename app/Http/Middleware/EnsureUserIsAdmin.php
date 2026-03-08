@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class EnsureUserIsAdmin
 {
@@ -15,11 +17,13 @@ class EnsureUserIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             return redirect('login');
         }
 
-        if (!auth()->user()->isAdmin()) {
+        /** @var User $user */
+        $user = Auth::user();
+        if (!$user->isAdmin()) {
             abort(403, 'Unauthorized: Admin access required.');
         }
 

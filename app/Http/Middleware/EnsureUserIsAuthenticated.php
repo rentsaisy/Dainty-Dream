@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class EnsureUserIsAuthenticated
 {
@@ -15,12 +17,14 @@ class EnsureUserIsAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             return redirect('login');
         }
 
         // Update last login
-        auth()->user()->update(['last_login' => now()]);
+        /** @var User $user */
+        $user = Auth::user();
+        $user->update(['last_login' => now()]);
 
         return $next($request);
     }
