@@ -1,2 +1,2 @@
 new branch currents
-new branch alya.gugu
+new branch alya
