@@ -6,7 +6,6 @@ use App\Models\Product;
 use App\Models\StockMovement;
 use App\Models\IncomingTransaction;
 use App\Models\OutgoingTransaction;
-use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Carbon\Carbon;
@@ -22,20 +21,15 @@ class ReportController extends Controller
     }
 
     /**
-     * Show inventory report.
+     * Show inventory report - current stock levels.
      */
     public function inventory(Request $request): View
     {
-        $query = Product::where('status', 'active')->with('category');
+        $query = Product::where('status', 'active')->with('category', 'supplier');
 
         // Filter by category
         if ($request->has('category') && $request->get('category')) {
             $query->where('category_id', $request->get('category'));
-        }
-
-        // Filter by condition
-        if ($request->has('condition') && $request->get('condition')) {
-            $query->where('condition', $request->get('condition'));
         }
 
         $products = $query->get();
@@ -59,13 +53,12 @@ class ReportController extends Controller
     }
 
     /**
-     * Show stock movement report.
+     * Show stock movement report - all movements.
      */
     public function stockMovements(Request $request): View
     {
         $query = StockMovement::with('product', 'user');
 
-        // Date range filter
         if ($request->has('from_date') && $request->get('from_date')) {
             $query->where('created_at', '>=', $request->get('from_date'));
         }
@@ -76,12 +69,10 @@ class ReportController extends Controller
 
         $movements = $query->latest()->get();
 
-        // Calculate statistics
         $totalIn = $movements->where('type', 'in')->sum('quantity');
         $totalOut = $movements->where('type', 'out')->sum('quantity');
         $netMovement = $totalIn - $totalOut;
 
-        // Most active products
         $mostActiveProducts = $movements->groupBy('product_id')
             ->map(function ($items) {
                 return [
@@ -103,40 +94,35 @@ class ReportController extends Controller
     }
 
     /**
-     * Show sales report.
+     * Show sales report - from outgoing transactions.
      */
     public function sales(Request $request): View
     {
-        $query = StockMovement::where('type', 'out')
-            ->where('reason', 'sale')
-            ->with('product', 'user');
+        $query = OutgoingTransaction::with('product', 'customer', 'user');
 
-        // Date range filter
         if ($request->has('from_date') && $request->get('from_date')) {
-            $query->where('created_at', '>=', $request->get('from_date'));
+            $query->where('transaction_date', '>=', $request->get('from_date'));
         }
 
         if ($request->has('to_date') && $request->get('to_date')) {
-            $query->where('created_at', '<=', $request->get('to_date') . ' 23:59:59');
+            $query->where('transaction_date', '<=', $request->get('to_date'));
         }
 
         $sales = $query->latest()->get();
 
-        // Calculate statistics
         $totalSales = $sales->sum(function ($sale) {
-            return $sale->quantity * $sale->product->selling_price;
+            return $sale->quantity * $sale->unit_price;
         });
 
         $totalItems = $sales->sum('quantity');
 
-        // Top selling items
         $topItems = $sales->groupBy('product_id')
             ->map(function ($items) {
                 return [
                     'product' => $items->first()->product,
                     'quantity' => $items->sum('quantity'),
                     'total' => $items->sum(function ($item) {
-                        return $item->quantity * $item->product->selling_price;
+                        return $item->quantity * $item->unit_price;
                     }),
                 ];
             })
@@ -152,18 +138,16 @@ class ReportController extends Controller
     }
 
     /**
-     * Show monthly inventory report with incoming/outgoing transactions.
+     * Show monthly inventory report.
      */
     public function monthlyReport(Request $request): View
     {
-        // Get month and year from request or use current
         $month = $request->get('month', now()->month);
         $year = $request->get('year', now()->year);
 
         $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
         $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
-        // Get incoming and outgoing transactions for the month
         $incomingTransactions = IncomingTransaction::whereBetween('transaction_date', [$startDate, $endDate])
             ->with('product', 'supplier')
             ->get();
@@ -172,19 +156,17 @@ class ReportController extends Controller
             ->with('product', 'customer')
             ->get();
 
-        // Calculate totals
         $totalIncoming = $incomingTransactions->sum('quantity');
-        $totalIncomingValue = $incomingTransactions->sum('total_price');
+        $totalIncomingValue = $incomingTransactions->sum(function ($transaction) {
+            return $transaction->quantity * $transaction->unit_cost;
+        });
+
         $totalOutgoing = $outgoingTransactions->sum('quantity');
-        $totalOutgoingValue = $outgoingTransactions->sum('total_price');
+        $totalOutgoingValue = $outgoingTransactions->sum(function ($transaction) {
+            return $transaction->quantity * $transaction->unit_price;
+        });
 
-        // Group by product
-        $incomingByProduct = $incomingTransactions->groupBy('product_id');
-        $outgoingByProduct = $outgoingTransactions->groupBy('product_id');
-
-        // Get current stock for all products
         $products = Product::where('status', 'active')->with('category')->get();
-        $currentStock = $products->keyBy('id');
 
         return view('reports.monthly', [
             'month' => $month,
@@ -195,9 +177,7 @@ class ReportController extends Controller
             'totalIncomingValue' => $totalIncomingValue,
             'totalOutgoing' => $totalOutgoing,
             'totalOutgoingValue' => $totalOutgoingValue,
-            'incomingByProduct' => $incomingByProduct,
-            'outgoingByProduct' => $outgoingByProduct,
             'products' => $products,
-            'currentStock' => $currentStock,
         ]);
     }
+}

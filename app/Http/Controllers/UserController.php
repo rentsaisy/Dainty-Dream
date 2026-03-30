@@ -17,7 +17,7 @@ class UserController extends Controller
     {
         $users = User::paginate(20);
 
-        return view('staff.users.index', [
+        return view('master-data.users.index', [
             'users' => $users,
         ]);
     }
@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view('staff.users.create');
+        return view('master-data.users.create');
     }
 
     /**
@@ -55,7 +55,7 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
-        return view('staff.users.edit', [
+        return view('master-data.users.edit', [
             'user' => $user,
         ]);
     }
