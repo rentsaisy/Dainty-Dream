@@ -11,11 +11,12 @@
 
 - [Quick Start](#quick-start) - Get running in 5 minutes
 - [Features](#features) - What's included
+- [Structure](#project-structure) - Clean organized code
 - [Documentation](#documentation) - Complete guides
 - [Installation](#installation) - Setup instructions
 - [Default Credentials](#default-credentials) - Test accounts
 
-**👉 Start here**: [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | [README_NEW.md](README_NEW.md)
+**👉 Start here**: [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) | [README_NEW.md](README_NEW.md)
 
 ---
 
@@ -76,7 +77,19 @@ Password: password
 
 ---
 
-## 📁 Key Directories
+## 📁 Project Structure
+
+```
+app/Http/Controllers/    ← 12 clean controllers (one per entity)
+app/Models/              ← 8 data models with relationships
+resources/views/         ← 30+ organized Blade templates
+database/                ← Migrations, seeders, factories
+routes/web.php           ← All URLs in one file
+```
+
+**See [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) for complete breakdown**
+
+---
 
 ```
 app/Http/Controllers/    ← Business logic (9 controllers)
