@@ -9,22 +9,20 @@ class Product extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'm_products';
+
     protected $fillable = [
         'sku',
         'name',
-        'description',
         'category_id',
         'supplier_id',
-        'brand',
-        'size',
-        'condition',
-        'purchase_price',
-        'selling_price',
+        'product_condition',
         'quantity',
-        'reorder_level',
-        'color',
-        'material',
-        'status',
     ];
 
     /**

@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('outgoing_transactions', function (Blueprint $table) {
+        Schema::create('t_outgoing_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('m_products')->onDelete('restrict');
+            $table->foreignId('customer_id')->constrained('m_customers')->onDelete('restrict');
+            $table->foreignId('user_id')->constrained('m_users')->onDelete('restrict');
             $table->integer('quantity');
             $table->decimal('unit_price', 10, 2)->nullable();
-            $table->decimal('total_price', 12, 2)->nullable();
-            $table->string('invoice_number')->nullable();
+            $table->string('sale_number')->nullable();
             $table->text('notes')->nullable();
             $table->enum('status', ['pending', 'completed', 'cancelled'])->default('completed');
-            $table->timestamp('transaction_date');
+            $table->date('transaction_date');
             $table->timestamps();
 
             $table->index('product_id');
@@ -37,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('outgoing_transactions');
+        Schema::dropIfExists('t_outgoing_transactions');
     }
 };

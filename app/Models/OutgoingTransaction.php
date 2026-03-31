@@ -9,17 +9,20 @@ class OutgoingTransaction extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 't_outgoing_transactions';
+
     protected $fillable = [
         'product_id',
         'customer_id',
         'user_id',
         'quantity',
-        'unit_price',
-        'total_price',
-        'invoice_number',
-        'notes',
-        'status',
         'transaction_date',
+        'notes',
     ];
 
     protected $casts = [

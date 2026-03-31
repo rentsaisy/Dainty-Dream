@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', ['admin', 'employee'])->default('employee')->after('email');
-            $table->enum('status', ['active', 'inactive'])->default('active')->after('role');
-            $table->timestamp('last_login')->nullable()->after('status');
+        Schema::table('m_users', function (Blueprint $table) {
+            // Columns are already added in create_users_table
         });
     }
 
@@ -23,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['role', 'status', 'last_login']);
+        Schema::table('m_users', function (Blueprint $table) {
+            // Columns are part of the main migration
         });
     }
 };

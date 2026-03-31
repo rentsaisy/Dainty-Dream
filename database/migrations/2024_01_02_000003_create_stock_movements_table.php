@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stock_movements', function (Blueprint $table) {
+        Schema::create('m_stock_movements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('m_products')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('m_users')->onDelete('restrict');
             $table->enum('type', ['in', 'out'])->comment('in: stock received, out: stock sold');
             $table->integer('quantity');
             $table->text('notes')->nullable();
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_movements');
+        Schema::dropIfExists('m_stock_movements');
     }
 };

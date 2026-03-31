@@ -9,6 +9,13 @@ class StockMovement extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'm_stock_movements';
+
     protected $fillable = [
         'product_id',
         'user_id',
