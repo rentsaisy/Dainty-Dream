@@ -15,6 +15,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
             'auth.check' => \App\Http\Middleware\EnsureUserIsAuthenticated::class,
         ]);
+        
+        // Ensure web middleware group is applied to web routes
+        $middleware->web(append: [
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

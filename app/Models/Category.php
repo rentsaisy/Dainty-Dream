@@ -9,6 +9,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
@@ -18,7 +20,6 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'description',
     ];
 
     /**

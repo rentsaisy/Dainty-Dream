@@ -13,16 +13,8 @@ return new class extends Migration
     {
         Schema::create('m_suppliers', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('contact_person')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->text('address')->nullable();
+            $table->string('name');
             $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('postal_code')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->timestamps();
         });
     }
 

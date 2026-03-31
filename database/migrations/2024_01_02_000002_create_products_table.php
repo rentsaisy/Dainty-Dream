@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('supplier_id')->constrained('m_suppliers')->onDelete('restrict');
             $table->string('product_condition')->nullable();
             $table->integer('quantity')->default(0);
-            $table->timestamps();
         });
     }
 

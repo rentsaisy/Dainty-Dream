@@ -9,6 +9,8 @@ class Supplier extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
@@ -18,14 +20,7 @@ class Supplier extends Model
 
     protected $fillable = [
         'name',
-        'contact_person',
-        'email',
-        'phone',
-        'address',
         'city',
-        'state',
-        'postal_code',
-        'status',
     ];
 
     /**
