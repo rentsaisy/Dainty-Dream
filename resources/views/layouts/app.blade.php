@@ -51,59 +51,63 @@
             width: 260px;
             background: var(--bg-white);
             border-right: 1px solid var(--border-light);
-            overflow-y: auto;
-            padding: 30px 0;
+            padding: 20px 0;
             box-shadow: 2px 0 15px rgba(6, 182, 212, 0.08);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
 
         .sidebar-logo {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 0 20px 30px;
+            padding: 0 20px 20px;
             border-bottom: 1px solid var(--border-light);
-            margin-bottom: 30px;
-            font-size: 20px;
+            margin-bottom: 15px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--text-dark);
+            flex-shrink: 0;
         }
 
         .sidebar-logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
         }
 
         .sidebar-section {
-            padding: 0 15px;
-            margin-bottom: 30px;
+            padding: 0 12px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
         }
 
         .sidebar-section-title {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             text-transform: uppercase;
             color: var(--text-gray);
-            padding: 0 15px 15px;
+            padding: 0 12px 8px;
             letter-spacing: 0.5px;
         }
 
         .sidebar-link {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            margin: 5px 0;
-            border-radius: 8px;
+            gap: 10px;
+            padding: 8px 12px;
+            margin: 2px 0;
+            border-radius: 6px;
             text-decoration: none;
             color: var(--text-gray);
             transition: all 0.3s ease;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
         }
 
@@ -118,33 +122,32 @@
         }
 
         .sidebar-link svg {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             flex-shrink: 0;
         }
 
         .sidebar-logout {
-            position: absolute;
-            bottom: 30px;
-            left: 15px;
-            right: 15px;
+            margin-top: auto;
+            padding: 0 12px 15px;
+            flex-shrink: 0;
         }
 
         .logout-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             width: 100%;
-            padding: 12px;
+            padding: 9px 12px;
             background: #fee2e2;
             color: #991b1b;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .logout-btn:hover {
@@ -642,6 +645,7 @@
 
             <!-- Dashboard -->
             <div class="sidebar-section">
+                <div class="sidebar-section-title">Main</div>
                 <a href="{{ url('/dashboard') }}" class="sidebar-link {{ request()->is('dashboard') ? 'active' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-2h2v16h-2z"/>
