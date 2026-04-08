@@ -6,7 +6,7 @@
 <div class="table-container">
     <div class="table-header">
         <div class="table-title">📦 Product Inventory</div>
-        <a href="{{ url('/products/create') }}" class="btn-add">+ Add Product</a>
+        <button onclick="openAddProductModal()" class="btn-add">+ Add Product</button>
     </div>
 
     @if ($products->count() > 0)
@@ -35,7 +35,17 @@
                         <td>{{ $product->condition_status ?? '-' }}</td>
                         <td>
                             <div style="display: flex; gap: 8px;">
-                                <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn-edit">Edit</a>
+                                <button 
+                                    class="btn-edit" 
+                                    data-product-id="{{ $product->id }}"
+                                    data-sku="{{ $product->sku }}"
+                                    data-name="{{ $product->name }}"
+                                    data-category-id="{{ $product->category_id }}"
+                                    data-supplier-id="{{ $product->supplier_id }}"
+                                    data-price="{{ $product->price }}"
+                                    data-stock="{{ $product->stock }}"
+                                    data-condition="{{ $product->condition_status }}"
+                                    onclick="openEditProductModal(this)">Edit</button>
                                 <form method="POST" action="{{ url('/products/' . $product->id) }}" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
@@ -51,8 +61,368 @@
         <div class="empty-state">
             <div class="empty-state-icon">📦</div>
             <p>No products found</p>
-            <a href="{{ url('/products/create') }}" class="btn-add">Create First Product</a>
+            <button onclick="openAddProductModal()" class="btn-add">Create First Product</button>
         </div>
     @endif
 </div>
+
+<!-- Add Product Modal -->
+<div id="addProductModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>📦 Add New Product</h2>
+            <button class="modal-close" onclick="closeAddProductModal()">&times;</button>
+        </div>
+        
+        <form method="POST" action="{{ url('/products') }}" class="modal-body">
+            @csrf
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>SKU</label>
+                    <input type="text" name="sku" value="{{ old('sku') }}" required>
+                    @error('sku')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" name="name" value="{{ old('name') }}" required>
+                    @error('name')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category_id" required>
+                    <option value="">Select Category</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label>Supplier</label>
+                <select name="supplier_id" required>
+                    <option value="">Select Supplier</option>
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
+                            {{ $supplier->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('supplier_id')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Price ($)</label>
+                    <input type="number" name="price" step="0.01" value="{{ old('price') }}" required>
+                    @error('price')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label>Stock Quantity</label>
+                    <input type="number" name="stock" value="{{ old('stock') }}" required>
+                    @error('stock')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Condition Status</label>
+                <select name="condition_status">
+                    <option value="">Select Condition</option>
+                    <option value="New" {{ old('condition_status') == 'New' ? 'selected' : '' }}>New</option>
+                    <option value="Like New" {{ old('condition_status') == 'Like New' ? 'selected' : '' }}>Like New</option>
+                    <option value="Good" {{ old('condition_status') == 'Good' ? 'selected' : '' }}>Good</option>
+                    <option value="Fair" {{ old('condition_status') == 'Fair' ? 'selected' : '' }}>Fair</option>
+                </select>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn-submit">Add Product</button>
+                <button type="button" class="btn-cancel" onclick="closeAddProductModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Product Modal -->
+<div id="editProductModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>📦 Edit Product</h2>
+            <button class="modal-close" onclick="closeEditProductModal()">&times;</button>
+        </div>
+        
+        <form id="editProductForm" method="POST" class="modal-body">
+            @csrf
+            @method('PUT')
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>SKU</label>
+                    <input type="text" name="sku" id="edit_sku" required>
+                    @error('sku')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" name="name" id="edit_name" required>
+                    @error('name')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category_id" id="edit_category_id" required>
+                    <option value="">Select Category</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label>Supplier</label>
+                <select name="supplier_id" id="edit_supplier_id" required>
+                    <option value="">Select Supplier</option>
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                    @endforeach
+                </select>
+                @error('supplier_id')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Price ($)</label>
+                    <input type="number" name="price" id="edit_price" step="0.01" required>
+                    @error('price')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label>Stock Quantity</label>
+                    <input type="number" name="stock" id="edit_stock" required>
+                    @error('stock')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Condition Status</label>
+                <select name="condition_status" id="edit_condition_status">
+                    <option value="">Select Condition</option>
+                    <option value="New">New</option>
+                    <option value="Like New">Like New</option>
+                    <option value="Good">Good</option>
+                    <option value="Fair">Fair</option>
+                </select>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn-submit">Update Product</button>
+                <button type="button" class="btn-cancel" onclick="closeEditProductModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .modal.show {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-content {
+        background-color: var(--bg-white);
+        padding: 0;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 380px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .modal-header h2 {
+        margin: 0;
+        font-size: 18px;
+        color: var(--text-dark);
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 28px;
+        color: var(--text-gray);
+        cursor: pointer;
+        padding: 0;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: background 0.2s;
+    }
+
+    .modal-close:hover {
+        background: var(--bg-light);
+        color: var(--text-dark);
+    }
+
+    .modal-body {
+        padding: 15px 20px;
+    }
+
+    .modal-footer {
+        display: flex;
+        gap: 10px;
+        padding: 12px 20px;
+        border-top: 1px solid var(--border-light);
+        justify-content: flex-end;
+    }
+
+    .modal-footer .btn-submit,
+    .modal-footer .btn-cancel {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .error-message {
+        display: block;
+        color: var(--danger);
+        font-size: 12px;
+        margin-top: 4px;
+    }
+</style>
+
+<script>
+    const hasErrors = '{{ $errors->any() ? "true" : "false" }}' === 'true';
+
+    function openAddProductModal() {
+        document.getElementById('addProductModal').classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAddProductModal() {
+        document.getElementById('addProductModal').classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+
+    function openEditProductModal(button) {
+        const productId = button.dataset.productId;
+        const sku = button.dataset.sku;
+        const name = button.dataset.name;
+        const categoryId = button.dataset.categoryId;
+        const supplierId = button.dataset.supplierId;
+        const price = button.dataset.price;
+        const stock = button.dataset.stock;
+        const condition = button.dataset.condition;
+
+        document.getElementById('edit_sku').value = sku;
+        document.getElementById('edit_name').value = name;
+        document.getElementById('edit_category_id').value = categoryId;
+        document.getElementById('edit_supplier_id').value = supplierId;
+        document.getElementById('edit_price').value = price;
+        document.getElementById('edit_stock').value = stock;
+        document.getElementById('edit_condition_status').value = condition;
+        document.getElementById('editProductForm').action = '/products/' + productId;
+        
+        document.getElementById('editProductModal').classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeEditProductModal() {
+        document.getElementById('editProductModal').classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+        const addModal = document.getElementById('addProductModal');
+        const editModal = document.getElementById('editProductModal');
+        if (event.target == addModal) {
+            closeAddProductModal();
+        }
+        if (event.target == editModal) {
+            closeEditProductModal();
+        }
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeAddProductModal();
+            closeEditProductModal();
+        }
+    });
+
+    // Show modal if there are validation errors
+    document.addEventListener('DOMContentLoaded', function() {
+        if (hasErrors) {
+            openAddProductModal();
+        }
+    });
+</script>
 @endsection
