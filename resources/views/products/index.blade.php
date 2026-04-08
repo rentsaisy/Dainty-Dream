@@ -46,11 +46,16 @@
                                     data-stock="{{ $product->stock }}"
                                     data-condition="{{ $product->condition_status }}"
                                     onclick="openEditProductModal(this)">Edit</button>
-                                <form method="POST" action="{{ url('/products/' . $product->id) }}" style="display: inline;">
+                                <form id="deleteForm-{{ $product->id }}" method="POST" action="{{ url('/products/' . $product->id) }}" style="display: none;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-delete" onclick="return confirm('Delete this product?')">Delete</button>
                                 </form>
+                                <button 
+                                    type="button" 
+                                    class="btn-delete" 
+                                    data-product-id="{{ $product->id }}"
+                                    data-product-name="{{ $product->name }}"
+                                    onclick="openDeleteModal(this.dataset.productId, this.dataset.productName)">Delete</button>
                             </div>
                         </td>
                     </tr>
@@ -251,6 +256,21 @@
     </div>
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content delete-modal">
+        <div class="modal-body delete-body">
+            <p>Are you sure you want to delete <strong id="deleteProductName"></strong>?</p>
+            <p class="delete-warning">This action cannot be undone.</p>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+            <button type="button" class="btn-delete" onclick="confirmDelete()">Delete</button>
+        </div>
+    </div>
+</div>
+
 <style>
     .modal {
         display: none;
@@ -371,6 +391,30 @@
         color: var(--text-gray);
         margin-bottom: 16px;
     }
+
+    .delete-modal {
+        max-width: 360px;
+    }
+
+    .delete-body {
+        text-align: center;
+        padding: 20px 15px;
+    }
+
+    .delete-body p {
+        margin: 10px 0;
+        color: var(--text-dark);
+    }
+
+    .delete-body strong {
+        color: var(--danger);
+    }
+
+    .delete-warning {
+        font-size: 12px;
+        color: var(--text-gray);
+        font-style: italic;
+    }
 </style>
 
 <script>
@@ -414,15 +458,40 @@
         document.body.style.overflow = 'auto';
     }
 
+    let deleteProductId = null;
+
+    function openDeleteModal(productId, productName) {
+        deleteProductId = productId;
+        document.getElementById('deleteProductName').textContent = productName;
+        document.getElementById('deleteModal').classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeDeleteModal() {
+        deleteProductId = null;
+        document.getElementById('deleteModal').classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+
+    function confirmDelete() {
+        if (deleteProductId) {
+            document.getElementById('deleteForm-' + deleteProductId).submit();
+        }
+    }
+
     // Close modal when clicking outside of it
     window.onclick = function(event) {
         const addModal = document.getElementById('addProductModal');
         const editModal = document.getElementById('editProductModal');
+        const deleteModal = document.getElementById('deleteModal');
         if (event.target == addModal) {
             closeAddProductModal();
         }
         if (event.target == editModal) {
             closeEditProductModal();
+        }
+        if (event.target == deleteModal) {
+            closeDeleteModal();
         }
     }
 
@@ -431,6 +500,7 @@
         if (event.key === 'Escape') {
             closeAddProductModal();
             closeEditProductModal();
+            closeDeleteModal();
         }
     });
 
