@@ -702,13 +702,13 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                     </svg>
-                    Incoming Goods
+                    Incoming Clothes
                 </a>
                 <a href="{{ url('/outgoing') }}" class="sidebar-link {{ request()->is('outgoing*') ? 'active' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M5 11h6V5h2v6h6v2h-6v6h-2v-6H5v-2z" transform="translate(12, 12) rotate(180) translate(-12, -12)"/>
+                        <path d="M19 13H5v-2h14v2z"/>
                     </svg>
-                    Outgoing Goods
+                    Outgoing Clothes
                 </a>
             </div>
 
