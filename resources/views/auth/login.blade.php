@@ -124,7 +124,7 @@
         .login-btn {
             width: 100%;
             padding: 12px;
-            background: linear-gradient(135deg, #B4E7FF 0%, #D4BAFF 50%, #F4A8D4 100%);
+            background: #D4BAFF;
             color: white;
             border: none;
             border-radius: 10px;

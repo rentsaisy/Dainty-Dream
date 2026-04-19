@@ -64,6 +64,7 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
+            animation: slideInLeft 0.6s ease-out;
         }
 
         .sidebar-logo {
@@ -117,15 +118,17 @@
             transition: all 0.3s ease;
             font-size: 13px;
             font-weight: 500;
+            cursor: pointer;
         }
 
         .sidebar-link:hover {
-            background: var(--primary-light);
-            color: var(--primary);
+            background: #D4BAFF;
+            color: white;
+            transform: translateX(5px);
         }
 
         .sidebar-link.active {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: #D4BAFF;
             color: white;
         }
 
@@ -362,7 +365,7 @@
         }
 
         .btn-add {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: #D4BAFF;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -473,7 +476,7 @@
 
         .btn-submit {
             flex: 1;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: #D4BAFF;
             color: white;
             border: none;
             padding: 12px;

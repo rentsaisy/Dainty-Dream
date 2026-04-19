@@ -112,7 +112,7 @@
         }
 
         .btn-add {
-            background: linear-gradient(135deg, #B4E7FF 0%, #D4BAFF 50%, #F4A8D4 100%);
+            background: #D4BAFF;
             color: white;
             padding: 12px 30px;
             border: none;
@@ -137,7 +137,7 @@
         }
 
         thead {
-            background: linear-gradient(135deg, #B4E7FF 0%, #D4BAFF 100%);
+            background: #D4BAFF;
             color: white;
         }
 
