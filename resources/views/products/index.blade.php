@@ -58,6 +58,14 @@
                 @endforeach
             </tbody>
         </table>
+        
+        <!-- Pagination -->
+        <div class="pagination-wrapper">
+            <div class="pagination-info">
+                Showing page <strong>{{ $products->currentPage() }}</strong> of <strong>{{ $products->lastPage() }}</strong> • <strong>{{ $products->total() }}</strong> total products
+            </div>
+            {{ $products->render('vendor.pagination.custom') }}
+        </div>
     @else
         <div class="empty-state">
             <div class="empty-state-icon"><svg class="icon-large" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
@@ -382,6 +390,127 @@
         font-size: 12px;
         color: var(--text-gray);
         font-style: italic;
+    }
+
+    .pagination-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
+        padding: 20px;
+        border-top: 1px solid var(--border-light);
+        gap: 30px;
+        background: var(--bg-white);
+    }
+
+    .pagination-info {
+        font-size: 14px;
+        color: var(--text-dark);
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .pagination-info strong {
+        color: var(--primary-dark);
+        font-size: 16px;
+    }
+
+    /* Pagination Styling */
+    nav[role="navigation"] {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        gap: 6px;
+        padding: 0;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+    }
+
+    .pagination li {
+        display: inline-flex;
+    }
+
+    .pagination span,
+    .pagination a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 32px;
+        height: 32px;
+        padding: 0 8px;
+        border: 2px solid var(--border-light);
+        border-radius: 50px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-dark);
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        background: var(--bg-white);
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(124, 107, 168, 0.04);
+    }
+
+    .pagination a {
+        position: relative;
+    }
+
+    .pagination a:hover:not(.disabled) {
+        background: linear-gradient(135deg, #D4BAFF 0%, #B4E7FF 100%);
+        color: white;
+        border-color: #D4BAFF;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(212, 186, 255, 0.35);
+    }
+
+    .pagination a:active {
+        transform: translateY(0);
+    }
+
+    /* Current Page Indicator */
+    .page-indicator .current-page {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #D4BAFF 0%, #C5B3E0 100%);
+        color: white;
+        font-weight: 700;
+        font-size: 12px;
+        border: 2px solid #D4BAFF;
+        box-shadow: 0 4px 12px rgba(212, 186, 255, 0.4);
+    }
+
+    .pagination .disabled span {
+        color: var(--text-gray);
+        background: var(--bg-light);
+        border-color: #E8D7FF;
+        cursor: not-allowed;
+        opacity: 0.6;
+        box-shadow: none;
+    }
+
+    .pagination-arrow {
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .pagination .disabled:hover span {
+        background: var(--bg-light);
+        border-color: #E8D7FF;
+        transform: none;
+        box-shadow: none;
     }
 </style>
 
