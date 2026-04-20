@@ -13,7 +13,7 @@ class OutgoingTransactionController extends Controller
 {
     public function index(): View
     {
-        $transactions = OutgoingTransaction::with('product', 'customer')->get();
+        $transactions = OutgoingTransaction::with('product', 'customer')->paginate(5);
         return view('outgoing.index', ['transactions' => $transactions, 'products' => Product::all(), 'customers' => Customer::all()]);
     }
 

@@ -13,7 +13,7 @@ class IncomingTransactionController extends Controller
 {
     public function index(): View
     {
-        $transactions = IncomingTransaction::with('product', 'supplier')->get();
+        $transactions = IncomingTransaction::with('product', 'supplier')->paginate(5);
         return view('incoming.index', ['transactions' => $transactions, 'products' => Product::all(), 'suppliers' => Supplier::all()]);
     }
 
