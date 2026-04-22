@@ -88,10 +88,10 @@
 
             <div class="form-group">
                 <label>Product</label>
-                <select name="product_id" required>
+                <select name="product_id" id="modal_product_id" required onchange="autoFillPriceModal()">
                     <option value="">Select Product</option>
                     @foreach($products as $product)
-                        <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
+                        <option value="{{ $product->id }}" data-price="{{ $product->price }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
                             {{ $product->name }}
                         </option>
                     @endforeach
@@ -126,7 +126,7 @@
                 </div>
                 <div class="form-group">
                     <label>Unit Price</label>
-                    <input type="number" step="0.01" name="price" value="{{ old('price') }}" required>
+                    <input type="number" step="0.01" name="price" id="modal_price" value="{{ old('price') }}" required>
                     @error('price')
                         <span class="error-message">{{ $message }}</span>
                     @enderror
@@ -523,6 +523,20 @@
     function closeAddOutgoingModal() {
         document.getElementById('addOutgoingModal').classList.remove('show');
         document.body.style.overflow = 'auto';
+        // Reset form fields
+        document.getElementById('modal_product_id').value = '';
+        document.getElementById('modal_price').value = '';
+    }
+
+    function autoFillPriceModal() {
+        const productSelect = document.getElementById('modal_product_id');
+        const priceInput = document.getElementById('modal_price');
+        const selectedOption = productSelect.options[productSelect.selectedIndex];
+        const price = selectedOption.getAttribute('data-price');
+        
+        if (price) {
+            priceInput.value = price;
+        }
     }
 
     function openEditOutgoingModal(button) {
