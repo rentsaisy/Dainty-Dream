@@ -30,7 +30,7 @@ class UserController extends Controller
         ]);
         $data['password'] = Hash::make($data['password']);
         User::create($data);
-        return redirect('/users');
+        return redirect('/users')->with('msg', 'User added!');
     }
 
     public function edit(User $user): View
@@ -52,12 +52,12 @@ class UserController extends Controller
             unset($data['password']);
         }
         $user->update($data);
-        return redirect('/users');
+        return redirect('/users')->with('msg', 'User updated!');
     }
 
     public function destroy(User $user): RedirectResponse
     {
         $user->delete();
-        return redirect('/users');
+        return redirect('/users')->with('msg', 'User deleted!');
     }
 }

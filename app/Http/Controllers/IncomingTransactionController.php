@@ -30,7 +30,7 @@ class IncomingTransactionController extends Controller
             'quantity' => 'required|numeric',
             'transaction_date' => 'required|date'
         ]));
-        return redirect('/incoming');
+        return redirect('/incoming')->with('msg', 'Stock in recorded!');
     }
 
     public function edit(IncomingTransaction $incoming): View
@@ -46,12 +46,12 @@ class IncomingTransactionController extends Controller
             'quantity' => 'required|numeric',
             'transaction_date' => 'required|date'
         ]));
-        return redirect('/incoming');
+        return redirect('/incoming')->with('msg', 'Stock in updated!');
     }
 
     public function destroy(IncomingTransaction $incoming): RedirectResponse
     {
         $incoming->delete();
-        return redirect('/incoming');
+        return redirect('/incoming')->with('msg', 'Stock in deleted!');
     }
 }
