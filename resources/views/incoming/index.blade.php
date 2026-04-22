@@ -88,10 +88,10 @@
 
             <div class="form-group">
                 <label>Product</label>
-                <select name="product_id" required>
+                <select name="product_id" id="modal_product_id" required onchange="autoFillSupplierModal()">
                     <option value="">Select Product</option>
                     @foreach($products as $product)
-                        <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
+                        <option value="{{ $product->id }}" data-supplier-id="{{ $product->supplier_id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
                             {{ $product->name }}
                         </option>
                     @endforeach
@@ -103,7 +103,7 @@
 
             <div class="form-group">
                 <label>Supplier</label>
-                <select name="supplier_id" required>
+                <select name="supplier_id" id="modal_supplier_id" required>
                     <option value="">Select Supplier</option>
                     @foreach($suppliers as $supplier)
                         <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
@@ -523,6 +523,9 @@
     function closeAddIncomingModal() {
         document.getElementById('addIncomingModal').classList.remove('show');
         document.body.style.overflow = 'auto';
+        // Reset form fields
+        document.getElementById('modal_product_id').value = '';
+        document.getElementById('modal_supplier_id').value = '';
     }
 
     function openEditIncomingModal(button) {
@@ -547,6 +550,17 @@
     function closeEditIncomingModal() {
         document.getElementById('editIncomingModal').classList.remove('show');
         document.body.style.overflow = 'auto';
+    }
+
+    function autoFillSupplierModal() {
+        const productSelect = document.getElementById('modal_product_id');
+        const supplierSelect = document.getElementById('modal_supplier_id');
+        const selectedOption = productSelect.options[productSelect.selectedIndex];
+        const supplierId = selectedOption.getAttribute('data-supplier-id');
+        
+        if (supplierId) {
+            supplierSelect.value = supplierId;
+        }
     }
 
     let deleteTransactionId = null;
