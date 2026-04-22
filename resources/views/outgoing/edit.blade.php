@@ -23,10 +23,10 @@
 
         <div class="form-group">
             <label>Product</label>
-            <select name="product_id" required>
+            <select name="product_id" id="product_id" required onchange="autoFillPrice()">
                 <option value="">Select Product</option>
                 @foreach($products as $product)
-                    <option value="{{ $product->id }}" {{ old('product_id', $transaction->product_id) == $product->id ? 'selected' : '' }}>
+                    <option value="{{ $product->id }}" data-price="{{ $product->price }}" {{ old('product_id', $transaction->product_id) == $product->id ? 'selected' : '' }}>
                         {{ $product->name }}
                     </option>
                 @endforeach
@@ -52,7 +52,7 @@
             </div>
             <div class="form-group">
                 <label>Unit Price</label>
-                <input type="number" step="0.01" name="price" value="{{ old('price', $transaction->price) }}" required>
+                <input type="number" step="0.01" name="price" id="price" value="{{ old('price', $transaction->price) }}" required>
             </div>
         </div>
 
@@ -69,4 +69,17 @@
         </div>
     </form>
 </div>
+
+<script>
+    function autoFillPrice() {
+        const productSelect = document.getElementById('product_id');
+        const priceInput = document.getElementById('price');
+        const selectedOption = productSelect.options[productSelect.selectedIndex];
+        const price = selectedOption.getAttribute('data-price');
+        
+        if (price) {
+            priceInput.value = price;
+        }
+    }
+</script>
 @endsection
