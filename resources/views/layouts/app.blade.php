@@ -943,9 +943,12 @@
                 info: 'ℹ'
             };
             
+            // Format message: lowercase and remove trailing punctuation
+            const formattedMessage = message.toLowerCase().replace(/[!.]+$/, '').replace(/^✓\s*/, '');
+            
             notification.innerHTML = `
                 <span class="notification-icon">${icons[type] || '●'}</span>
-                <span class="notification-message">${message}</span>
+                <span class="notification-message">${formattedMessage}</span>
                 <button class="notification-close" onclick="this.parentElement.remove()">×</button>
             `;
             

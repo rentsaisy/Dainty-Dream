@@ -80,6 +80,6 @@ class ProductController extends Controller
     public function destroy(Product $product): RedirectResponse
     {
         $product->delete();
-        return redirect('/products');
+        return redirect('/products')->with('msg', 'Product deleted!');
     }
 }

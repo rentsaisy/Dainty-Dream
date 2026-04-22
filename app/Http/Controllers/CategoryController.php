@@ -22,7 +22,7 @@ class CategoryController extends Controller
     public function store(Request $request): RedirectResponse
     {
         Category::create($request->validate(['name' => 'required']));
-        return redirect('/categories');
+        return redirect('/categories')->with('msg', 'Category added!');
     }
 
     public function edit(Category $category): View
@@ -33,12 +33,12 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category): RedirectResponse
     {
         $category->update($request->validate(['name' => 'required']));
-        return redirect('/categories');
+        return redirect('/categories')->with('msg', 'Category updated!');
     }
 
     public function destroy(Category $category): RedirectResponse
     {
         $category->delete();
-        return redirect('/categories');
+        return redirect('/categories')->with('msg', 'Category deleted!');
     }
 }

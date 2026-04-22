@@ -22,7 +22,7 @@ class CustomerController extends Controller
     public function store(Request $request): RedirectResponse
     {
         Customer::create($request->validate(['name' => 'required', 'address' => 'nullable', 'phone' => 'nullable']));
-        return redirect('/customers');
+        return redirect('/customers')->with('msg', 'Customer added!');
     }
 
     public function edit(Customer $customer): View
@@ -33,12 +33,12 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer): RedirectResponse
     {
         $customer->update($request->validate(['name' => 'required', 'address' => 'nullable', 'phone' => 'nullable']));
-        return redirect('/customers');
+        return redirect('/customers')->with('msg', 'Customer updated!');
     }
 
     public function destroy(Customer $customer): RedirectResponse
     {
         $customer->delete();
-        return redirect('/customers');
+        return redirect('/customers')->with('msg', 'Customer deleted!');
     }
 }

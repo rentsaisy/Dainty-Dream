@@ -22,7 +22,7 @@ class SupplierController extends Controller
     public function store(Request $request): RedirectResponse
     {
         Supplier::create($request->validate(['name' => 'required', 'address' => 'nullable', 'phone' => 'nullable']));
-        return redirect('/suppliers');
+        return redirect('/suppliers')->with('msg', 'Supplier added!');
     }
 
     public function edit(Supplier $supplier): View
@@ -33,12 +33,12 @@ class SupplierController extends Controller
     public function update(Request $request, Supplier $supplier): RedirectResponse
     {
         $supplier->update($request->validate(['name' => 'required', 'address' => 'nullable', 'phone' => 'nullable']));
-        return redirect('/suppliers');
+        return redirect('/suppliers')->with('msg', 'Supplier updated!');
     }
 
     public function destroy(Supplier $supplier): RedirectResponse
     {
         $supplier->delete();
-        return redirect('/suppliers');
+        return redirect('/suppliers')->with('msg', 'Supplier deleted!');
     }
 }
