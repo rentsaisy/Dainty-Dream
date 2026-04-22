@@ -69,7 +69,6 @@
     @else
         <div class="empty-state">
             <p>No incoming transactions yet</p>
-            <button onclick="openAddIncomingModal()" class="btn-add">Create First Incoming</button>
         </div>
     @endif
 </div>
