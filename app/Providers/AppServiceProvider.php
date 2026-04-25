@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\IncomingTransaction;
+use App\Models\OutgoingTransaction;
 use App\Observers\IncomingTransactionObserver;
+use App\Observers\OutgoingTransactionObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,5 +25,8 @@ class AppServiceProvider extends ServiceProvider
     {
         // Register the IncomingTransaction observer
         IncomingTransaction::observe(IncomingTransactionObserver::class);
+        
+        // Register the OutgoingTransaction observer
+        OutgoingTransaction::observe(OutgoingTransactionObserver::class);
     }
 }
