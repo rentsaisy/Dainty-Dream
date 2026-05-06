@@ -136,7 +136,11 @@
             </div>
         @else
             <div style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, rgba(245, 230, 255, 0.5) 0%, rgba(232, 215, 255, 0.3) 100%); border-radius: 10px; border: 2px dashed #E8D7FF;">
-                <p style="margin: 0; font-size: 48px;">📭</p>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9F8FBF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto; display: block;">
+                    <path d="M20 17v2H4v-2"/>
+                    <rect x="2" y="5" width="20" height="8" rx="1"/>
+                    <path d="M2 5v12a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V5"/>
+                </svg>
                 <p style="margin: 12px 0 0 0; color: #9F8FBF; font-size: 16px; font-weight: 500;">No incoming transactions for {{ $currentMonth->format('F Y') }}</p>
             </div>
         @endif
@@ -189,7 +193,11 @@
             </div>
         @else
             <div style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, rgba(245, 230, 255, 0.5) 0%, rgba(232, 215, 255, 0.3) 100%); border-radius: 10px; border: 2px dashed #E8D7FF;">
-                <p style="margin: 0; font-size: 48px;">📭</p>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9F8FBF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto; display: block;">
+                    <path d="M20 17v2H4v-2"/>
+                    <rect x="2" y="5" width="20" height="8" rx="1"/>
+                    <path d="M2 5v12a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V5"/>
+                </svg>
                 <p style="margin: 12px 0 0 0; color: #9F8FBF; font-size: 16px; font-weight: 500;">No outgoing transactions for {{ $currentMonth->format('F Y') }}</p>
             </div>
         @endif
