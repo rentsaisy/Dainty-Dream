@@ -22,16 +22,35 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #B4D7FF 0%, #D4C5FF 25%, #FFD4E8 50%, #C5E8FF 75%, #FFE0F0 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            background: #F8F9FA;
             overflow: hidden;
+            position: relative;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        body::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: url('{{ asset("BlueBlur.png") }}') no-repeat center;
+            background-size: contain;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: url('{{ asset("PinkBlur.png") }}') no-repeat center;
+            background-size: contain;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .login-wrapper {
@@ -41,15 +60,17 @@
             align-items: center;
             min-height: 100vh;
             width: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         .login-container {
             background: rgba(255, 255, 255, 0.98);
             border-radius: 25px;
             box-shadow: 0 30px 80px rgba(180, 120, 220, 0.2), 0 10px 40px rgba(200, 150, 250, 0.15);
-            padding: 40px 35px;
+            padding: 20px 20px;
             width: 100%;
-            max-width: 380px;
+            max-width: 300px;
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.9);
         }
@@ -72,17 +93,11 @@
         }
 
         .login-header h1 {
-            font-size: 16px;
-            color: #5A4A7A;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        .login-header p {
-            color: #9B8BAC;
             font-size: 12px;
-            font-weight: 400;
+            color: #44474E;
+            font-weight: 500;
+            letter-spacing: 2px;
+            /* margin-bottom: 3px; */
         }
 
         .form-group {
@@ -90,23 +105,46 @@
         }
 
         label {
-            display: block;
             margin-bottom: 8px;
-            color: #5A4A7A;
-            font-weight: 600;
-            font-size: 13px;
+            color: #635979;
+            font-weight: 500;
+            font-size: 11px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .input-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         input[type="email"],
         input[type="password"],
         input[type="text"] {
             width: 100%;
-            padding: 12px 15px;
-            border: 1.5px solid #E8D7FF;
+            padding: 12px 15px 12px 45px;
+            border: 1.5px solid #C4C6CF;
             border-radius: 10px;
             font-size: 13px;
             transition: all 0.3s ease;
-            background: #FAFBFF;
+            background: #FFFFFF;
             color: #5A4A7A;
             font-family: 'Inter', sans-serif;
         }
@@ -115,7 +153,7 @@
         input[type="password"]:focus,
         input[type="text"]:focus {
             outline: none;
-            border-color: #A78BCC;
+            border-color: #C4C6CF;
             background: #FFFFFF;
             box-shadow: 0 0 0 4px rgba(167, 139, 204, 0.1);
         }
@@ -123,7 +161,7 @@
         input[type="email"]::placeholder,
         input[type="password"]::placeholder,
         input[type="text"]::placeholder {
-            color: #D4BAFF;
+            color: #C4C6CF;
         }
 
         .password-input-wrapper {
@@ -136,7 +174,7 @@
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            color: #A78BCC;
+            color: #C4C6CF;
             font-size: 16px;
             border: none;
             background: none;
@@ -145,7 +183,7 @@
         }
 
         .toggle-password:hover {
-            color: #7C6BA8;
+            color: #74777F;
         }
 
         .checkbox-wrapper {
@@ -166,40 +204,40 @@
             width: 18px;
             height: 18px;
             cursor: pointer;
-            accent-color: #A78BCC;
+            accent-color: #635979;
         }
 
         .checkbox-label {
-            color: #5A4A7A;
+            color: #44474E;
             font-weight: 500;
             cursor: pointer;
             margin: 0;
         }
 
         .forgot-link {
-            color: #A78BCC;
+            color: #475F86;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 200;
             transition: color 0.3s ease;
         }
 
         .forgot-link:hover {
-            color: #7C6BA8;
+            color: #475F86;
             text-decoration: underline;
         }
 
         .login-btn {
             width: 100%;
             padding: 13px;
-            background: linear-gradient(135deg, #9BBFFF 0%, #B8A8FF 50%, #D9BAFF 100%);
-            color: white;
+            background: #AEC6F2;
+            color: #475F86;
             border: none;
             border-radius: 10px;
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 550;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 30px rgba(167, 139, 204, 0.35);
+            box-shadow: 0 8px 30px rgba(174, 198, 242, 0.35);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -209,7 +247,7 @@
 
         .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(167, 139, 204, 0.45);
+            box-shadow: 0 12px 40px rgba(174, 198, 242, 0.45);
         }
 
         .login-btn:active {
@@ -242,10 +280,10 @@
 
         .auth-footer {
             text-align: center;
-            color: #9B8BAC;
+            color: #635979;
             font-size: 12px;
             margin-top: 20px;
-            font-weight: 500;
+            font-weight: 200;
         }
 
         .bottom-nav {
@@ -300,19 +338,27 @@
                 
                 <div class="form-group">
                     <label for="email">Business Email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        placeholder="owner@daintydream.com"
-                        value="{{ old('email') }}"
-                        required
-                    >
+                    <div class="input-wrapper">
+                        <div class="input-icon">
+                            <img src="{{ asset('IconMessage.png') }}" alt="Email">
+                        </div>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="owner@daintydream.com"
+                            value="{{ old('email') }}"
+                            required
+                        >
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Access Key</label>
                     <div class="password-input-wrapper">
+                        <div class="input-icon">
+                            <img src="{{ asset('IconKey.png') }}" alt="Key">
+                        </div>
                         <input 
                             type="password" 
                             id="password" 
@@ -331,7 +377,7 @@
                         <input type="checkbox" id="stay-cloud" name="stay_cloud">
                         <label for="stay-cloud" class="checkbox-label">Stay in the cloud</label>
                     </div>
-                    <a href="#" class="forgot-link">Forgot key?</a>
+                    <a href="#" class="forgot-link">Forgot Key?</a>
                 </div>
 
                 <button type="submit" class="login-btn">
