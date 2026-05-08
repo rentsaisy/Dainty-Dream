@@ -122,14 +122,14 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 20px;
+            padding: 8px 16px;
             margin: 4px 12px;
             border-left: none;
             border-radius: 10px;
             text-decoration: none;
             color: #A9AAB2;
             transition: all 0.3s ease;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 500;
             cursor: pointer;
         }
@@ -147,10 +147,14 @@
             border-right: 4px solid #4A90E2;
         }
 
-        .sidebar-link svg {
-            width: 18px;
-            height: 18px;
+        .sidebar-link img {
+            width: 16px;
+            height: 16px;
             flex-shrink: 0;
+        }
+
+        .sidebar-link.active img {
+            content: '';
         }
 
         .sidebar-logout {
@@ -187,12 +191,12 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 20px;
+            padding: 8px 16px;
             margin: 4px 12px;
             text-decoration: none;
             color: #A9AAB2;
             transition: all 0.3s ease;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 500;
             border-radius: 10px;
         }
@@ -211,19 +215,18 @@
         }
 
         .top-bar {
-            background: var(--bg-white);
+            background: #EFF6FF;
             border-bottom: 1px solid var(--border-light);
-            padding: 20px 40px;
+            padding: 10px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 8px rgba(197, 179, 224, 0.08);
+            min-height: 50px;
         }
 
         .page-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-dark);
+            display: none;
         }
 
         .admin-profile {
@@ -233,7 +236,7 @@
         }
 
         .admin-info {
-            text-align: right;
+            display: none;
         }
 
         .admin-name {
@@ -836,10 +839,12 @@
             <!-- Dashboard -->
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Main</div>
-                <a href="{{ url('/dashboard') }}" class="sidebar-link {{ request()->is('dashboard') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-2h2v16h-2z"/>
-                    </svg>
+                <a href="{{ url('/dashboard') }}" class="sidebar-link {{ request()->is('dashboard') ? 'active' : '' }}" data-icon-on="{{ asset('DashboardOnClick.png') }}" data-icon-off="{{ asset('DashboardOffClick.png') }}">
+                    @if(request()->is('dashboard'))
+                        <img src="{{ asset('DashboardOnClick.png') }}" alt="Dashboard">
+                    @else
+                        <img src="{{ asset('DashboardOffClick.png') }}" alt="Dashboard">
+                    @endif
                     Dashboard
                 </a>
             </div>
@@ -847,28 +852,36 @@
             <!-- Master Section -->
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Master Data</div>
-                <a href="{{ url('/products') }}" class="sidebar-link {{ request()->is('products*') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M16 2H8c-1.1 0-2 .9-2 2v4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-2V4c0-1.1-.9-2-2-2zm-2 2v4H10V4h4zm6 14H4V10h16v10z"/>
-                    </svg>
+                <a href="{{ url('/products') }}" class="sidebar-link {{ request()->is('products*') ? 'active' : '' }}" data-icon-on="{{ asset('ClothingItemOnClick.png') }}" data-icon-off="{{ asset('ClothingItemOffClick.png') }}">
+                    @if(request()->is('products*'))
+                        <img src="{{ asset('ClothingItemOnClick.png') }}" alt="Clothing Items">
+                    @else
+                        <img src="{{ asset('ClothingItemOffClick.png') }}" alt="Clothing Items">
+                    @endif
                     Clothing Items
                 </a>
-                <a href="{{ url('/categories') }}" class="sidebar-link {{ request()->is('categories*') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M10 4H4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 8H4V6h6v6zm10-8h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 8h-6V6h6v6zM10 14H4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2zm0 8H4v-6h6v6zm10 0h-6v-6h6v6zm0-8h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2z"/>
-                    </svg>
+                <a href="{{ url('/categories') }}" class="sidebar-link {{ request()->is('categories*') ? 'active' : '' }}" data-icon-on="{{ asset('CategoryOnClick.png') }}" data-icon-off="{{ asset('CategoryOffClick.png') }}">
+                    @if(request()->is('categories*'))
+                        <img src="{{ asset('CategoryOnClick.png') }}" alt="Categories">
+                    @else
+                        <img src="{{ asset('CategoryOffClick.png') }}" alt="Categories">
+                    @endif
                     Categories
                 </a>
-                <a href="{{ url('/suppliers') }}" class="sidebar-link {{ request()->is('suppliers*') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
+                <a href="{{ url('/suppliers') }}" class="sidebar-link {{ request()->is('suppliers*') ? 'active' : '' }}" data-icon-on="{{ asset('SupplierOnClick.png') }}" data-icon-off="{{ asset('SupplierOffClick.png') }}">
+                    @if(request()->is('suppliers*'))
+                        <img src="{{ asset('SupplierOnClick.png') }}" alt="Suppliers">
+                    @else
+                        <img src="{{ asset('SupplierOffClick.png') }}" alt="Suppliers">
+                    @endif
                     Suppliers
                 </a>
-                <a href="{{ url('/customers') }}" class="sidebar-link {{ request()->is('customers*') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                    </svg>
+                <a href="{{ url('/customers') }}" class="sidebar-link {{ request()->is('customers*') ? 'active' : '' }}" data-icon-on="{{ asset('CustomerOnClick.png') }}" data-icon-off="{{ asset('CustomerOffClick.png') }}">
+                    @if(request()->is('customers*'))
+                        <img src="{{ asset('CustomerOnClick.png') }}" alt="Customers">
+                    @else
+                        <img src="{{ asset('CustomerOffClick.png') }}" alt="Customers">
+                    @endif
                     Customers
                 </a>
             </div>
@@ -876,16 +889,20 @@
             <!-- Transaction Section -->
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Transactions</div>
-                <a href="{{ url('/incoming') }}" class="sidebar-link {{ request()->is('incoming*') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                    </svg>
+                <a href="{{ url('/incoming') }}" class="sidebar-link {{ request()->is('incoming*') ? 'active' : '' }}" data-icon-on="{{ asset('StockInOnClick.png') }}" data-icon-off="{{ asset('StockInOffClick.png') }}">
+                    @if(request()->is('incoming*'))
+                        <img src="{{ asset('StockInOnClick.png') }}" alt="Stock In">
+                    @else
+                        <img src="{{ asset('StockInOffClick.png') }}" alt="Stock In">
+                    @endif
                     Stock In
                 </a>
-                <a href="{{ url('/outgoing') }}" class="sidebar-link {{ request()->is('outgoing*') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 13H5v-2h14v2z"/>
-                    </svg>
+                <a href="{{ url('/outgoing') }}" class="sidebar-link {{ request()->is('outgoing*') ? 'active' : '' }}" data-icon-on="{{ asset('StockOutOnClick.png') }}" data-icon-off="{{ asset('StockOutOffClick.png') }}">
+                    @if(request()->is('outgoing*'))
+                        <img src="{{ asset('StockOutOnClick.png') }}" alt="Stock Out">
+                    @else
+                        <img src="{{ asset('StockOutOffClick.png') }}" alt="Stock Out">
+                    @endif
                     Stock Out
                 </a>
             </div>
@@ -893,10 +910,12 @@
             <!-- Reports Section (placeholder) -->
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Reports</div>
-                <a href="{{ route('reports.monthly') }}" class="sidebar-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2V17zm4 0h-2V7h2V17zm4 0h-2v-4h2V17z"/>
-                    </svg>
+                <a href="{{ route('reports.monthly') }}" class="sidebar-link {{ request()->is('reports*') ? 'active' : '' }}" data-icon-on="{{ asset('ReportsOnClick.png') }}" data-icon-off="{{ asset('ReportsOffClick.png') }}">
+                    @if(request()->is('reports*'))
+                        <img src="{{ asset('ReportsOnClick.png') }}" alt="Reports">
+                    @else
+                        <img src="{{ asset('ReportsOffClick.png') }}" alt="Reports">
+                    @endif
                     Monthly Report
                 </a>
             </div>
@@ -1008,6 +1027,30 @@
                 showNotification(message, 'success');
                 alertElement.style.display = 'none';
             }
+        });
+
+        // Sidebar icon hover effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            
+            sidebarLinks.forEach(link => {
+                const iconOnClick = link.getAttribute('data-icon-on');
+                const iconOffClick = link.getAttribute('data-icon-off');
+                const img = link.querySelector('img');
+                
+                link.addEventListener('mouseenter', function() {
+                    if (img && iconOnClick) {
+                        img.src = iconOnClick;
+                    }
+                });
+                
+                link.addEventListener('mouseleave', function() {
+                    if (img && iconOffClick) {
+                        const isActive = link.classList.contains('active');
+                        img.src = isActive ? iconOnClick : iconOffClick;
+                    }
+                });
+            });
         });
     </script>
 </body>
