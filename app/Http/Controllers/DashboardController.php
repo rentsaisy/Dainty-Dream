@@ -19,6 +19,12 @@ class DashboardController extends Controller
             // Get total stock value
             $totalStock = Product::sum(DB::raw('price * stock')) ?? 0;
             
+            // Get total incoming transactions (Stock In)
+            $totalStockIn = IncomingTransaction::sum('quantity') ?? 0;
+            
+            // Get total outgoing transactions (Stock Out)
+            $totalStockOut = OutgoingTransaction::sum('quantity') ?? 0;
+            
             // Get total transactions count
             $totalTransactions = IncomingTransaction::count() + OutgoingTransaction::count();
             
@@ -84,6 +90,8 @@ class DashboardController extends Controller
         } catch (\Exception $e) {
             $totalProducts = 0;
             $totalStock = 0;
+            $totalStockIn = 0;
+            $totalStockOut = 0;
             $totalTransactions = 0;
             $monthlyRevenue = 0;
             $monthlyData = array_fill(1, 12, ['incoming' => 0, 'outgoing' => 0]);
@@ -93,6 +101,8 @@ class DashboardController extends Controller
         return view('dashboard', [
             'totalProducts' => $totalProducts,
             'totalStock' => $totalStock,
+            'totalStockIn' => $totalStockIn,
+            'totalStockOut' => $totalStockOut,
             'totalTransactions' => $totalTransactions,
             'monthlyRevenue' => $monthlyRevenue,
             'recentTransactions' => $recentTransactions,
