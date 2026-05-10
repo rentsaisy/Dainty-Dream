@@ -353,7 +353,7 @@
 
         .summary-card {
             background: var(--bg-white);
-            padding: 25px;
+            padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(197, 179, 224, 0.08);
             transition: all 0.3s ease;
@@ -364,56 +364,52 @@
             box-shadow: 0 8px 25px rgba(197, 179, 224, 0.15);
         }
 
-        .card-header {
+        .card-body {
             display: flex;
-            justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 20px;
+            gap: 15px;
         }
 
-        .card-icon {
-            width: 50px;
-            height: 50px;
+        .card-icon-wrapper {
+            width: 70px;
+            height: 70px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            flex-shrink: 0;
         }
 
-        .card-icon.primary {
-            background: rgba(180, 231, 255, 0.25);
-            color: var(--primary-dark);
+        .card-icon-wrapper img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
         }
 
-        .card-icon.secondary {
-            background: rgba(212, 186, 255, 0.25);
-            color: var(--secondary-dark);
+        .card-content {
+            flex: 1;
         }
 
-        .card-icon.success {
-            background: rgba(168, 230, 184, 0.25);
-            color: var(--success);
-        }
-
-        .card-icon.warning {
-            background: rgba(255, 217, 168, 0.25);
-            color: var(--warning);
-        }
-
-        .card-title {
-            font-size: 13px;
+        .card-label {
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-gray);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .card-value {
-            font-size: 32px;
+            font-size: 24px;
             font-weight: 700;
             color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .card-frequency {
+            font-size: 12px;
+            color: #3b82f6;
+            margin-top: 2px;
         }
 
         .card-change {
