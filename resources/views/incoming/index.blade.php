@@ -16,7 +16,7 @@
         <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search by product..." onkeyup="filterRecords()">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by product..." value="{{ request('search', '') }}" onkeyup="searchData(event)">
     </div>
 
     <div class="table-container products-table-container">
@@ -88,7 +88,7 @@
 <div id="addIncomingModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> Add Incoming Goods</h2>
+            <h2><img src="{{ asset('StockInOnClick.png') }}" alt="Stock In" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add Incoming Goods</h2>
             <button class="modal-close" onclick="closeAddIncomingModal()">&times;</button>
         </div>
         
@@ -164,7 +164,7 @@
 <div id="editIncomingModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> Edit Incoming Goods</h2>
+            <h2><img src="{{ asset('StockInOnClick.png') }}" alt="Stock In" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Incoming Goods</h2>
             <button class="modal-close" onclick="closeEditIncomingModal()">&times;</button>
         </div>
         
@@ -625,19 +625,17 @@
         }
     });
 
-    function filterRecords() {
-        const searchInput = document.getElementById('searchInput');
-        const filter = searchInput.value.toLowerCase();
-        const rows = document.querySelectorAll('.product-row');
-        
-        rows.forEach(row => {
-            const name = row.dataset.productName;
-            if (name.includes(filter)) {
-                row.style.display = '';
+    function searchData(event) {
+        if (event.key === 'Enter' || event.type === 'keyup') {
+            const searchTerm = document.getElementById('searchInput').value;
+            const url = new URL(window.location);
+            if (searchTerm) {
+                url.searchParams.set('search', searchTerm);
             } else {
-                row.style.display = 'none';
+                url.searchParams.delete('search');
             }
-        });
+            window.location = url.toString();
+        }
     }
 </script>
 @endsection

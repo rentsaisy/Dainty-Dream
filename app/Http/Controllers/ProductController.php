@@ -12,9 +12,25 @@ class ProductController extends Controller
     /**
      * Display all products.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $products = Product::with('category', 'supplier')->paginate(5);
+        $query = Product::with('category', 'supplier');
+        
+        if ($request->has('search') && $request->get('search') !== '') {
+            $search = $request->get('search');
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('sku', 'like', "%{$search}%")
+                  ->orWhereHas('category', function($q2) use ($search) {
+                      $q2->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('supplier', function($q2) use ($search) {
+                      $q2->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+        
+        $products = $query->paginate(5)->appends(request()->query());
         $categories = \App\Models\Category::all();
         $suppliers = \App\Models\Supplier::all();
         return view('products.index', ['products' => $products, 'categories' => $categories, 'suppliers' => $suppliers]);

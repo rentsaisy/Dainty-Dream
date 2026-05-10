@@ -16,7 +16,7 @@
         <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search suppliers..." onkeyup="filterRecords()">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search suppliers..." value="{{ request('search', '') }}" onkeyup="searchData(event)">
     </div>
 
     <div class="table-container products-table-container">
@@ -80,7 +80,7 @@
 <div id="addSupplierModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Add New Supplier</h2>
+            <h2><img src="{{ asset('SupplierOnClick.png') }}" alt="Supplier" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add New Supplier</h2>
             <button class="modal-close" onclick="closeAddSupplierModal()">&times;</button>
         </div>
         
@@ -123,7 +123,7 @@
 <div id="editSupplierModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Edit Supplier</h2>
+            <h2><img src="{{ asset('SupplierOnClick.png') }}" alt="Supplier" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Supplier</h2>
             <button class="modal-close" onclick="closeEditSupplierModal()">&times;</button>
         </div>
         
@@ -537,19 +537,17 @@
         }
     });
 
-    function filterRecords() {
-        const searchInput = document.getElementById('searchInput');
-        const filter = searchInput.value.toLowerCase();
-        const rows = document.querySelectorAll('.product-row');
-        
-        rows.forEach(row => {
-            const name = row.dataset.productName;
-            if (name.includes(filter)) {
-                row.style.display = '';
+    function searchData(event) {
+        if (event.key === 'Enter' || event.type === 'keyup') {
+            const searchTerm = document.getElementById('searchInput').value;
+            const url = new URL(window.location);
+            if (searchTerm) {
+                url.searchParams.set('search', searchTerm);
             } else {
-                row.style.display = 'none';
+                url.searchParams.delete('search');
             }
-        });
+            window.location = url.toString();
+        }
     }
 </script>
 @endsection

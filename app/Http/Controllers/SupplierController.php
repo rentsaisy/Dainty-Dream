@@ -9,9 +9,20 @@ use Illuminate\View\View;
 
 class SupplierController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('suppliers.index', ['suppliers' => Supplier::paginate(5)]);
+        $query = Supplier::query();
+        
+        if ($request->has('search') && $request->get('search') !== '') {
+            $search = $request->get('search');
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%");
+            });
+        }
+        
+        return view('suppliers.index', ['suppliers' => $query->paginate(5)->appends(request()->query())]);
     }
 
     public function create(): View

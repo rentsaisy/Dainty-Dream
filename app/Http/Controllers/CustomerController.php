@@ -9,9 +9,20 @@ use Illuminate\View\View;
 
 class CustomerController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('customers.index', ['customers' => Customer::paginate(5)]);
+        $query = Customer::query();
+        
+        if ($request->has('search') && $request->get('search') !== '') {
+            $search = $request->get('search');
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%");
+            });
+        }
+        
+        return view('customers.index', ['customers' => $query->paginate(5)->appends(request()->query())]);
     }
 
     public function create(): View

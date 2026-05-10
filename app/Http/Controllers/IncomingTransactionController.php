@@ -11,9 +11,23 @@ use Illuminate\View\View;
 
 class IncomingTransactionController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $transactions = IncomingTransaction::with('product', 'supplier')->paginate(5);
+        $query = IncomingTransaction::with('product', 'supplier');
+        
+        if ($request->has('search') && $request->get('search') !== '') {
+            $search = $request->get('search');
+            $query->where(function($q) use ($search) {
+                $q->whereHas('product', function($q2) use ($search) {
+                      $q2->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('supplier', function($q2) use ($search) {
+                      $q2->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+        
+        $transactions = $query->paginate(5)->appends(request()->query());
         return view('incoming.index', ['transactions' => $transactions, 'products' => Product::all(), 'suppliers' => Supplier::all()]);
     }
 
