@@ -3,36 +3,47 @@
 @section('page-title', 'Outgoing Clothes')
 
 @section('content')
-<div class="table-container">
-    <div class="table-header">
-        <div class="table-title"><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg> Stock Out</div>
-        <button onclick="openAddOutgoingModal()" class="btn-add">+ Add Outgoing</button>
+<div class="products-container">
+    <div class="products-header">
+        <div class="products-title-section">
+            <h1 class="products-title">Stock Out</h1>
+            <p class="products-description">Manage outgoing stock to customers</p>
+        </div>
+        <button onclick="openAddOutgoingModal()" class="btn-add">+ Add</button>
     </div>
 
-    @if ($transactions->count() > 0)
-        <table>
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Customer</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Total Price</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($transactions as $tx)
+    <div class="search-bar-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by product..." onkeyup="filterRecords()">
+    </div>
+
+    <div class="table-container products-table-container">
+        @if ($transactions->count() > 0)
+            <table class="products-table">
+                <thead>
                     <tr>
-                        <td>{{ $tx->product->name ?? 'N/A' }}</td>
+                        <th>Product</th>
+                        <th>Customer</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total Price</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="recordsTableBody">
+                    @foreach ($transactions as $tx)
+                        <tr class="product-row" data-product-name="{{ strtolower($tx->product->name ?? 'N/A') }}">
+                            <td>{{ $tx->product->name ?? 'N/A' }}</td>
                         <td>{{ $tx->customer->name ?? 'N/A' }}</td>
                         <td>{{ $tx->quantity }}</td>
                         <td>${{ number_format($tx->price, 2) }}</td>
                         <td><strong>${{ number_format($tx->quantity * $tx->price, 2) }}</strong></td>
                         <td>{{ \Carbon\Carbon::parse($tx->transaction_date)->format('M d, Y') }}</td>
                         <td>
-                            <div style="display: flex; gap: 8px;">
+                            <div style="display: flex; gap: 8px; justify-content: flex-end;">
                                 <button 
                                     class="btn-edit" 
                                     data-transaction-id="{{ $tx->id }}"
@@ -613,5 +624,20 @@
             openAddOutgoingModal();
         }
     });
+
+    function filterRecords() {
+        const searchInput = document.getElementById('searchInput');
+        const filter = searchInput.value.toLowerCase();
+        const rows = document.querySelectorAll('.product-row');
+        
+        rows.forEach(row => {
+            const name = row.dataset.productName;
+            if (name.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
 </script>
 @endsection
