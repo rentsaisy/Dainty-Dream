@@ -16,7 +16,7 @@
         <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search inventory..." onkeyup="filterProducts()">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search inventory..." value="{{ request('search', '') }}" onkeyup="searchData(event)">
     </div>
 
     <div class="table-container products-table-container">
@@ -635,17 +635,20 @@
     });
 
     function filterProducts() {
-        const searchInput = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('.product-row');
+        // Deprecated - now using searchData
+    }
 
-        rows.forEach(row => {
-            const productName = row.getAttribute('data-product-name');
-            if (productName.includes(searchInput)) {
-                row.style.display = '';
+    function searchData(event) {
+        if (event.key === 'Enter' || event.type === 'keyup') {
+            const searchTerm = document.getElementById('searchInput').value;
+            const url = new URL(window.location);
+            if (searchTerm) {
+                url.searchParams.set('search', searchTerm);
             } else {
-                row.style.display = 'none';
+                url.searchParams.delete('search');
             }
-        });
+            window.location = url.toString();
+        }
     }
 </script>
 @endsection

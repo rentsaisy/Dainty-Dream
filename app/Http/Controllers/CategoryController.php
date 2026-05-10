@@ -9,9 +9,16 @@ use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('categories.index', ['categories' => Category::paginate(5)]);
+        $query = Category::query();
+        
+        if ($request->has('search') && $request->get('search') !== '') {
+            $search = $request->get('search');
+            $query->where('name', 'like', "%{$search}%");
+        }
+        
+        return view('categories.index', ['categories' => $query->paginate(5)->appends(request()->query())]);
     }
 
     public function create(): View
