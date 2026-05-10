@@ -190,14 +190,30 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 15px 20px;
+        padding: 20px 20px;
         border-bottom: 1px solid var(--border-light);
     }
 
     .modal-header h2 {
         margin: 0;
         font-size: 18px;
+        font-weight: 600;
         color: var(--text-dark);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .modal-header img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+    }
+
+    /* Modal Header Text Colors */
+    #addCategoryModal .modal-header h2,
+    #editCategoryModal .modal-header h2 {
+        color: #0284C7;
     }
 
     .modal-close {
