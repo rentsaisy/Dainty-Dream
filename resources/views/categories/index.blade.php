@@ -3,60 +3,72 @@
 @section('page-title', 'Categories')
 
 @section('content')
-<div class="table-container">
-    <div class="table-header">
-        <div class="table-title"><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 8H4V6h6v6zm10-8h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 8h-6V6h6v6zM10 14H4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2zm0 8H4v-6h6v6zm10 0h-6v-6h6v6zm0-8h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2z"/></svg> Product Categories</div>
-        <button onclick="openAddCategoryModal()" class="btn-add">+ Add Category</button>
+<div class="products-container">
+    <div class="products-header">
+        <div class="products-title-section">
+            <h1 class="products-title">Product Categories</h1>
+            <p class="products-description">Manage and organize your product categories</p>
+        </div>
+        <button onclick="openAddCategoryModal()" class="btn-add">+ Add</button>
     </div>
 
-    @if ($categories->count() > 0)
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($categories as $category)
+    <div class="search-bar-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search categories..." onkeyup="filterRecords()">
+    </div>
+
+    <div class="table-container products-table-container">
+        @if ($categories->count() > 0)
+            <table class="products-table">
+                <thead>
                     <tr>
-                        <td><strong>{{ $category->name }}</strong></td>
-                        <td>
-                            <div style="display: flex; gap: 8px;">
-                                <button 
-                                    class="btn-edit" 
-                                    data-category-id="{{ $category->id }}"
-                                    data-name="{{ $category->name }}"
-                                    onclick="openEditCategoryModal(this)">Edit</button>
-                                <form id="deleteForm-{{ $category->id }}" method="POST" action="{{ url('/categories/' . $category->id) }}" style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <button 
-                                    type="button" 
-                                    class="btn-delete" 
-                                    data-category-id="{{ $category->id }}"
-                                    data-category-name="{{ $category->name }}"
-                                    onclick="openDeleteModal(this.dataset.categoryId, this.dataset.categoryName)">Delete</button>
-                            </div>
-                        </td>
+                        <th>Name</th>
+                        <th>Actions</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-        
-        <!-- Pagination -->
-        <div class="pagination-wrapper">
-            <div class="pagination-info">
-                Showing page <strong>{{ $categories->currentPage() }}</strong> of <strong>{{ $categories->lastPage() }}</strong> • <strong>{{ $categories->total() }}</strong> total categories
+                </thead>
+                <tbody id="recordsTableBody">
+                    @foreach ($categories as $category)
+                        <tr class="product-row" data-product-name="{{ strtolower($category->name) }}">
+                            <td><strong>{{ $category->name }}</strong></td>
+                            <td>
+                                <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                                    <button 
+                                        class="btn-edit" 
+                                        data-category-id="{{ $category->id }}"
+                                        data-name="{{ $category->name }}"
+                                        onclick="openEditCategoryModal(this)">Edit</button>
+                                    <form id="deleteForm-{{ $category->id }}" method="POST" action="{{ url('/categories/' . $category->id) }}" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                    <button 
+                                        type="button" 
+                                        class="btn-delete" 
+                                        data-category-id="{{ $category->id }}"
+                                        data-category-name="{{ $category->name }}"
+                                        onclick="openDeleteModal(this.dataset.categoryId, this.dataset.categoryName)">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            
+            <!-- Pagination -->
+            <div class="pagination-wrapper">
+                <div class="pagination-info">
+                    Showing page <strong>{{ $categories->currentPage() }}</strong> of <strong>{{ $categories->lastPage() }}</strong> • <strong>{{ $categories->total() }}</strong> total categories
+                </div>
+                {{ $categories->render('vendor.pagination.custom') }}
             </div>
-            {{ $categories->render('vendor.pagination.custom') }}
-        </div>
-    @else
-        <div class="empty-state">
-            <p>No categories found</p>
-        </div>
-    @endif
+        @else
+            <div class="empty-state">
+                <p>No categories found</p>
+            </div>
+        @endif
+    </div>
 </div>
 
 <!-- Add Category Modal -->
@@ -477,5 +489,19 @@
             openAddCategoryModal();
         }
     });
+
+    function filterRecords() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('.product-row');
+
+        rows.forEach(row => {
+            const recordName = row.getAttribute('data-product-name');
+            if (recordName.includes(searchInput)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
 </script>
 @endsection

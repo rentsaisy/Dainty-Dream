@@ -288,7 +288,7 @@
         .content {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 10px 20px 20px 20px;
         }
 
         /* Custom Scrollbar Styling */
@@ -763,7 +763,7 @@
         }
 
         .products-table th {
-            padding: 15px 20px;
+            padding: 10px 15px;
             text-align: left;
             font-weight: 600;
             font-size: 12px;
@@ -782,7 +782,7 @@
         }
 
         .products-table td {
-            padding: 15px 20px;
+            padding: 10px 15px;
             font-size: 14px;
             color: var(--text-dark);
             vertical-align: middle;
