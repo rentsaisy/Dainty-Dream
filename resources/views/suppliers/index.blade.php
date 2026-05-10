@@ -3,51 +3,62 @@
 @section('page-title', 'Suppliers')
 
 @section('content')
-<div class="table-container">
-    <div class="table-header">
-        <div class="table-title"><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Supplier Management</div>
-        <button onclick="openAddSupplierModal()" class="btn-add">+ Add Supplier</button>
+<div class="products-container">
+    <div class="products-header">
+        <div class="products-title-section">
+            <h1 class="products-title">Suppliers</h1>
+            <p class="products-description">Manage and organize your supplier contacts</p>
+        </div>
+        <button onclick="openAddSupplierModal()" class="btn-add">+ Add</button>
     </div>
 
-    @if ($suppliers->count() > 0)
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($suppliers as $supplier)
+    <div class="search-bar-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search suppliers..." onkeyup="filterRecords()">
+    </div>
+
+    <div class="table-container products-table-container">
+        @if ($suppliers->count() > 0)
+            <table class="products-table">
+                <thead>
                     <tr>
-                        <td><strong>{{ $supplier->name }}</strong></td>
-                        <td>{{ $supplier->phone ?? '-' }}</td>
-                        <td>{{ $supplier->address ?? '-' }}</td>
-                        <td>
-                            <div style="display: flex; gap: 8px;">
-                                <button 
-                                    class="btn-edit" 
-                                    data-supplier-id="{{ $supplier->id }}"
-                                    data-name="{{ $supplier->name }}"
-                                    data-address="{{ $supplier->address }}"
-                                    data-phone="{{ $supplier->phone }}"
-                                    onclick="openEditSupplierModal(this)">Edit</button>
-                                <form id="deleteForm-{{ $supplier->id }}" method="POST" action="{{ url('/suppliers/' . $supplier->id) }}" style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <button 
-                                    type="button" 
-                                    class="btn-delete" 
-                                    data-supplier-id="{{ $supplier->id }}"
-                                    data-supplier-name="{{ $supplier->name }}"
-                                    onclick="openDeleteModal(this.dataset.supplierId, this.dataset.supplierName)">Delete</button>
-                            </div>
-                        </td>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Actions</th>
                     </tr>
-                @endforeach
+                </thead>
+                <tbody id="recordsTableBody">
+                    @foreach ($suppliers as $supplier)
+                        <tr class="product-row" data-product-name="{{ strtolower($supplier->name) }}">
+                            <td><strong>{{ $supplier->name }}</strong></td>
+                            <td>{{ $supplier->phone ?? '-' }}</td>
+                            <td>{{ $supplier->address ?? '-' }}</td>
+                            <td>
+                                <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                                    <button 
+                                        class="btn-edit" 
+                                        data-supplier-id="{{ $supplier->id }}"
+                                        data-name="{{ $supplier->name }}"
+                                        data-address="{{ $supplier->address }}"
+                                        data-phone="{{ $supplier->phone }}"
+                                        onclick="openEditSupplierModal(this)">Edit</button>
+                                    <form id="deleteForm-{{ $supplier->id }}" method="POST" action="{{ url('/suppliers/' . $supplier->id) }}" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                    <button 
+                                        type="button" 
+                                        class="btn-delete" 
+                                        data-supplier-id="{{ $supplier->id }}"
+                                        data-supplier-name="{{ $supplier->name }}"
+                                        onclick="openDeleteModal(this.dataset.supplierId, this.dataset.supplierName)">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
             </tbody>
         </table>
         
@@ -525,5 +536,20 @@
             openAddSupplierModal();
         }
     });
+
+    function filterRecords() {
+        const searchInput = document.getElementById('searchInput');
+        const filter = searchInput.value.toLowerCase();
+        const rows = document.querySelectorAll('.product-row');
+        
+        rows.forEach(row => {
+            const name = row.dataset.productName;
+            if (name.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
 </script>
 @endsection

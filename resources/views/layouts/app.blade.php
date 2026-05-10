@@ -288,7 +288,7 @@
         .content {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 10px 20px 20px 20px;
         }
 
         /* Custom Scrollbar Styling */
@@ -687,6 +687,242 @@
             font-weight: 700;
             color: var(--text-dark);
             margin-bottom: 20px;
+        }
+
+        /* PRODUCTS PAGE */
+        .products-container {
+            padding: 20px;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .products-title-section h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 8px 0;
+        }
+
+        .products-description {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin: 0;
+        }
+
+        .search-bar-wrapper {
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-bottom: 20px;
+            max-width: 400px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            width: 20px;
+            height: 20px;
+            color: #999;
+            stroke-width: 2;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 12px 10px 38px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-dark);
+            background: var(--bg-white);
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .products-table-container {
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(197, 179, 224, 0.08);
+            overflow: hidden;
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .products-table thead {
+            background: var(--bg-light);
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .products-table th {
+            padding: 10px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .products-table tbody tr {
+            border-bottom: 1px solid var(--border-light);
+            transition: background 0.2s ease;
+        }
+
+        .products-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .products-table td {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: var(--text-dark);
+            vertical-align: middle;
+        }
+
+        .products-table th:last-child,
+        .products-table td:last-child {
+            text-align: right;
+        }
+
+        .item-details {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .item-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #E8D7FF, #F5E6FF);
+            color: #7C6BA8;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .item-sku {
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            background: rgba(212, 186, 255, 0.3);
+            color: #6d28d9;
+            text-align: center;
+        }
+
+        .stock-level-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 150px;
+        }
+
+        .stock-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .stock-progress {
+            height: 100%;
+            background: #3b82f6;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .stock-text {
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        .stock-low {
+            color: #ef4444;
+        }
+
+        .stock-normal {
+            color: var(--text-gray);
+        }
+
+        .price {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-edit {
+            background: rgba(212, 186, 255, 0.3);
+            color: #6d28d9;
+        }
+
+        .btn-edit:hover {
+            background: rgba(212, 186, 255, 0.5);
+        }
+
+        .btn-delete {
+            background: rgba(244, 168, 212, 0.3);
+            color: #be185d;
+        }
+
+        .btn-delete:hover {
+            background: rgba(244, 168, 212, 0.5);
         }
 
         /* RESPONSIVE */

@@ -3,74 +3,99 @@
 @section('page-title', 'Products')
 
 @section('content')
-<div class="table-container">
-    <div class="table-header">
-        <div class="table-title"><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M16 2H8c-1.1 0-2 .9-2 2v4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-2V4c0-1.1-.9-2-2-2zm-2 2v4H10V4h4zm6 14H4V10h16v10z"/></svg> Product Inventory</div>
-        <button onclick="openAddProductModal()" class="btn-add">+ Add Product</button>
+<div class="products-container">
+    <div class="products-header">
+        <div class="products-title-section">
+            <h1 class="products-title">Clothing Items</h1>
+            <p class="products-description">Manage your boutique's delicate collection and stock levels</p>
+        </div>
+        <button onclick="openAddProductModal()" class="btn-add">+ Add</button>
     </div>
 
-    @if ($products->count() > 0)
-        <table>
-            <thead>
-                <tr>
-                    <th>SKU</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Supplier</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($products as $product)
+    <div class="search-bar-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search inventory..." onkeyup="filterProducts()">
+    </div>
+
+    <div class="table-container products-table-container">
+        @if ($products->count() > 0)
+            <table class="products-table">
+                <thead>
                     <tr>
-                        <td><strong>{{ $product->sku }}</strong></td>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->category->name ?? '-' }}</td>
-                        <td>{{ $product->supplier->name ?? '-' }}</td>
-                        <td>${{ number_format($product->price, 2) }}</td>
-                        <td>{{ $product->stock }}</td>
-                        <td>
-                            <div style="display: flex; gap: 8px;">
-                                <button 
-                                    class="btn-edit" 
-                                    data-product-id="{{ $product->id }}"
-                                    data-name="{{ $product->name }}"
-                                    data-category-id="{{ $product->category_id }}"
-                                    data-supplier-id="{{ $product->supplier_id }}"
-                                    data-price="{{ $product->price }}"
-                                    data-stock="{{ $product->stock }}"
-                                    onclick="openEditProductModal(this)">Edit</button>
-                                <form id="deleteForm-{{ $product->id }}" method="POST" action="{{ url('/products/' . $product->id) }}" style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <button 
-                                    type="button" 
-                                    class="btn-delete" 
-                                    data-product-id="{{ $product->id }}"
-                                    data-product-name="{{ $product->name }}"
-                                    onclick="openDeleteModal(this.dataset.productId, this.dataset.productName)">Delete</button>
-                            </div>
-                        </td>
+                        <th>SKU</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Supplier</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-        
-        <!-- Pagination -->
-        <div class="pagination-wrapper">
-            <div class="pagination-info">
-                Showing page <strong>{{ $products->currentPage() }}</strong> of <strong>{{ $products->lastPage() }}</strong> • <strong>{{ $products->total() }}</strong> total products
+                </thead>
+                <tbody id="productsTableBody">
+                    @foreach ($products as $product)
+                        <tr class="product-row" data-product-name="{{ strtolower($product->name) }}">
+                            <td><strong>{{ $product->sku }}</strong></td>
+                            <td>{{ $product->name }}</td>
+                            <td>{{ $product->category->name ?? '-' }}</td>
+                            <td>{{ $product->supplier->name ?? '-' }}</td>
+                            <td>${{ number_format($product->price, 2) }}</td>
+                            <td>
+                                <div class="stock-level-wrapper">
+                                    <div class="stock-progress-bar">
+                                        <div class="stock-progress" data-width="{{ min($product->stock, 100) }}"></div>
+                                    </div>
+                                    <div class="stock-text">
+                                        @if($product->stock < 10)
+                                            <span class="stock-low">⚠ {{ $product->stock }} left (Low Stock)</span>
+                                        @else
+                                            <span class="stock-normal">{{ $product->stock }} in stock</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <button 
+                                        class="btn-edit" 
+                                        data-product-id="{{ $product->id }}"
+                                        data-name="{{ $product->name }}"
+                                        data-category-id="{{ $product->category_id }}"
+                                        data-supplier-id="{{ $product->supplier_id }}"
+                                        data-price="{{ $product->price }}"
+                                        data-stock="{{ $product->stock }}"
+                                        onclick="openEditProductModal(this)">Edit</button>
+                                    <form id="deleteForm-{{ $product->id }}" method="POST" action="{{ url('/products/' . $product->id) }}" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                    <button 
+                                        type="button" 
+                                        class="btn-delete" 
+                                        data-product-id="{{ $product->id }}"
+                                        data-product-name="{{ $product->name }}"
+                                        onclick="openDeleteModal(this.dataset.productId, this.dataset.productName)">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            
+            <!-- Pagination -->
+            <div class="pagination-wrapper">
+                <div class="pagination-info">
+                    Showing page <strong>{{ $products->currentPage() }}</strong> of <strong>{{ $products->lastPage() }}</strong> • <strong>{{ $products->total() }}</strong> total products
+                </div>
+                {{ $products->render('vendor.pagination.custom') }}
             </div>
-            {{ $products->render('vendor.pagination.custom') }}
-        </div>
-    @else
-        <div class="empty-state">
-            <p>No products found</p>
-        </div>
-    @endif
+        @else
+            <div class="empty-state">
+                <p>No products found</p>
+            </div>
+        @endif
+    </div>
 </div>
 
 <!-- Add Product Modal -->
@@ -600,6 +625,27 @@
         if (hasErrors) {
             openAddProductModal();
         }
+        
+        // Apply stock progress widths from data attributes
+        const progressBars = document.querySelectorAll('.stock-progress[data-width]');
+        progressBars.forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            bar.style.width = width + '%';
+        });
     });
+
+    function filterProducts() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('.product-row');
+
+        rows.forEach(row => {
+            const productName = row.getAttribute('data-product-name');
+            if (productName.includes(searchInput)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
 </script>
 @endsection
