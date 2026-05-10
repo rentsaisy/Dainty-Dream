@@ -24,7 +24,6 @@
             <div class="card-content">
                 <div class="card-label">STOCK IN</div>
                 <div class="card-value">{{ $totalStockIn ?? 0 }}</div>
-                <div class="card-frequency">Weekly</div>
             </div>
         </div>
     </div>
@@ -37,7 +36,6 @@
             <div class="card-content">
                 <div class="card-label">STOCK OUT</div>
                 <div class="card-value">{{ $totalStockOut ?? 0 }}</div>
-                <div class="card-frequency">Weekly</div>
             </div>
         </div>
     </div>
