@@ -45,7 +45,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #F5E6FF 0%, #E8D7FF 25%, #D5E8FF 50%, #C8E5FF 75%, #FFD9E8 100%);
+            background: #EFF6FF;
             color: var(--text-dark);
         }
 
@@ -217,22 +217,44 @@
         .top-bar {
             background: #EFF6FF;
             border-bottom: 1px solid var(--border-light);
-            padding: 10px 40px;
+            padding: 5px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 8px rgba(197, 179, 224, 0.08);
-            min-height: 50px;
+            min-height: 40px;
         }
 
         .page-title {
             display: none;
         }
 
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+        }
+
+        .notification-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease;
+        }
+
+        .notification-icon:hover {
+            color: var(--primary);
+        }
+
         .admin-profile {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         .admin-info {
@@ -251,8 +273,8 @@
         }
 
         .admin-avatar {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             display: flex;
@@ -260,7 +282,7 @@
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 14px;
         }
 
         .content {
@@ -950,12 +972,19 @@
             <!-- TOP BAR -->
             <div class="top-bar">
                 <div class="page-title">@yield('page-title', 'Dashboard')</div>
-                <div class="admin-profile">
-                    <div class="admin-info">
-                        <div class="admin-name">{{ auth()->user()->name }}</div>
-                        <div class="admin-role">Administrator</div>
+                <div class="top-bar-right">
+                    <div class="notification-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                        </svg>
                     </div>
-                    <div class="admin-avatar">{{ substr(auth()->user()->name, 0, 1) }}</div>
+                    <div class="admin-profile">
+                        <div class="admin-info">
+                            <div class="admin-name">{{ auth()->user()->name }}</div>
+                            <div class="admin-role">Administrator</div>
+                        </div>
+                        <div class="admin-avatar">{{ substr(auth()->user()->name, 0, 1) }}</div>
+                    </div>
                 </div>
             </div>
 
