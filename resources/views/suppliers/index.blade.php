@@ -80,7 +80,7 @@
 <div id="addSupplierModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Add New Supplier</h2>
+            <h2><img src="{{ asset('SupplierOnClick.png') }}" alt="Supplier" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add New Supplier</h2>
             <button class="modal-close" onclick="closeAddSupplierModal()">&times;</button>
         </div>
         
@@ -123,7 +123,7 @@
 <div id="editSupplierModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Edit Supplier</h2>
+            <h2><img src="{{ asset('SupplierOnClick.png') }}" alt="Supplier" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Supplier</h2>
             <button class="modal-close" onclick="closeEditSupplierModal()">&times;</button>
         </div>
         

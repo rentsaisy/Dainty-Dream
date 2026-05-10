@@ -88,7 +88,7 @@
 <div id="addIncomingModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> Add Incoming Goods</h2>
+            <h2><img src="{{ asset('StockInOnClick.png') }}" alt="Stock In" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add Incoming Goods</h2>
             <button class="modal-close" onclick="closeAddIncomingModal()">&times;</button>
         </div>
         
@@ -164,7 +164,7 @@
 <div id="editIncomingModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> Edit Incoming Goods</h2>
+            <h2><img src="{{ asset('StockInOnClick.png') }}" alt="Stock In" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Incoming Goods</h2>
             <button class="modal-close" onclick="closeEditIncomingModal()">&times;</button>
         </div>
         
