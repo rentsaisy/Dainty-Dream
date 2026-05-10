@@ -56,13 +56,13 @@
 </div>
 
 <div class="chart-container">
-    <div class="chart-title">Monthly Transactions Overview</div>
+    <div class="chart-title">Monthly Overview</div>
     <canvas id="transactionChart" style="max-height: 300px;"></canvas>
 </div>
 
 <div class="table-container">
     <div class="table-header">
-        <div class="table-title">Recent Transactions</div>
+        <div class="table-title">Recent Informations</div>
     </div>
     <table>
         <thead>
