@@ -215,7 +215,7 @@
         }
 
         .top-bar {
-            background: #EFF6FF;
+            background: #FFFFFF;
             border-bottom: 1px solid var(--border-light);
             padding: 5px 40px;
             display: flex;
