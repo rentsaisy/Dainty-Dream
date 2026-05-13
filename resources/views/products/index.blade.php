@@ -102,7 +102,7 @@
 <div id="addProductModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><img src="{{ asset('ClothingItemOnClick.png') }}" alt="Product" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add New Product</h2>
+            <h2><img src="{{ asset('ClothingItemAdd.png') }}" alt="Product" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add New Product</h2>
             <button class="modal-close" onclick="closeAddProductModal()">&times;</button>
         </div>
         
@@ -176,7 +176,7 @@
 <div id="editProductModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><img src="{{ asset('ClothingItemOnClick.png') }}" alt="Product" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Product</h2>
+            <h2><img src="{{ asset('ClothingItemAdd.png') }}" alt="Product" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Product</h2>
             <button class="modal-close" onclick="closeEditProductModal()">&times;</button>
         </div>
         
@@ -330,7 +330,7 @@
     /* Modal Header Text Colors */
     #addProductModal .modal-header h2,
     #editProductModal .modal-header h2 {
-        color: #4A90E2;
+        color: #7c6ba8;
     }
 
     .modal-close {

@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="form-container">
-    <div class="form-title">👤 Add New User</div>
+    <div class="form-title"><img src="{{ asset('IconKey.png') }}" alt="user icon" class="form-icon"> Add New User</div>
 
     @if ($errors->any())
         <div style="background: #FFE8E8; color: #A04040; padding: 12px 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #F5A8A8;">

@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="form-container">
-    <div class="form-title">👥 Edit Customer</div>
+    <div class="form-title"><img src="{{ asset('CustomerAdd.png') }}" alt="customer icon" class="form-icon"> Edit Customer</div>
 
     <form method="POST" action="{{ url('/customers/' . $customer->id) }}">
         @csrf
