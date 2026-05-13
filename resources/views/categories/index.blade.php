@@ -213,7 +213,7 @@
     /* Modal Header Text Colors */
     #addCategoryModal .modal-header h2,
     #editCategoryModal .modal-header h2 {
-        color: #0284C7;
+        color: #7c6ba8;
     }
 
     .modal-close {

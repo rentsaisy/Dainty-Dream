@@ -250,7 +250,7 @@
     /* Modal Header Text Colors */
     #addCustomerModal .modal-header h2,
     #editCustomerModal .modal-header h2 {
-        color: #0284C7;
+        color: #7c6ba8;
     }
 
     .modal-close {
