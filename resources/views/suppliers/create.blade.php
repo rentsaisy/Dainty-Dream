@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="form-container">
-    <div class="form-title">🚚 Add New Supplier</div>
+    <div class="form-title"><img src="{{ asset('SupplierAdd.png') }}" alt="supplier icon" class="form-icon"> Add New Supplier</div>
 
     <form method="POST" action="{{ url('/suppliers') }}">
         @csrf

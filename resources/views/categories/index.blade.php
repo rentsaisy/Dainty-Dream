@@ -75,7 +75,7 @@
 <div id="addCategoryModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><img src="{{ asset('CategoryOnClick.png') }}" alt="Category" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add New Category</h2>
+            <h2><img src="{{ asset('CategoryAdd.png') }}" alt="Category" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add New Category</h2>
             <button class="modal-close" onclick="closeAddCategoryModal()">&times;</button>
         </div>
         
@@ -102,7 +102,7 @@
 <div id="editCategoryModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><img src="{{ asset('CategoryOnClick.png') }}" alt="Category" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Category</h2>
+            <h2><img src="{{ asset('CategoryAdd.png') }}" alt="Category" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Category</h2>
             <button class="modal-close" onclick="closeEditCategoryModal()">&times;</button>
         </div>
         

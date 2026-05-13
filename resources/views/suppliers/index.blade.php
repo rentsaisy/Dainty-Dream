@@ -80,7 +80,7 @@
 <div id="addSupplierModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><img src="{{ asset('SupplierOnClick.png') }}" alt="Supplier" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add New Supplier</h2>
+            <h2><img src="{{ asset('SupplierAdd.png') }}" alt="Supplier" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add New Supplier</h2>
             <button class="modal-close" onclick="closeAddSupplierModal()">&times;</button>
         </div>
         
@@ -123,7 +123,7 @@
 <div id="editSupplierModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><img src="{{ asset('SupplierOnClick.png') }}" alt="Supplier" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Supplier</h2>
+            <h2><img src="{{ asset('SupplierAdd.png') }}" alt="Supplier" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Supplier</h2>
             <button class="modal-close" onclick="closeEditSupplierModal()">&times;</button>
         </div>
         

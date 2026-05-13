@@ -88,7 +88,7 @@
 <div id="addOutgoingModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><img src="{{ asset('StockOutOnClick.png') }}" alt="Stock Out" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add Outgoing Goods</h2>
+            <h2><img src="{{ asset('StockOutAdd.png') }}" alt="Stock Out" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Add Outgoing Goods</h2>
             <button class="modal-close" onclick="closeAddOutgoingModal()">&times;</button>
         </div>
         
@@ -164,7 +164,7 @@
 <div id="editOutgoingModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2><img src="{{ asset('StockOutOnClick.png') }}" alt="Stock Out" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Outgoing Goods</h2>
+            <h2><img src="{{ asset('StockOutAdd.png') }}" alt="Stock Out" style="width: 20px; height: 20px; margin-right: 8px; object-fit: contain;"> Edit Outgoing Goods</h2>
             <button class="modal-close" onclick="closeEditOutgoingModal()">&times;</button>
         </div>
         

@@ -141,7 +141,7 @@
 
     <div class="container">
         <div class="form-card">
-            <h1>📥 Edit Incoming Transaction</h1>
+            <h1><img src="{{ asset('StockInAdd.png') }}" alt="incoming icon" style="height: 30px; width: 30px; margin-right: 10px; vertical-align: middle;"> Edit Incoming Transaction</h1>
 
             @if ($errors->any())
                 <div class="error-message">
